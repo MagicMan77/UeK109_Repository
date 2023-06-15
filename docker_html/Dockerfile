@@ -1,5 +1,5 @@
 # Verwenden Sie das offizielle Nginx-Image als Basis
-FROM nginx
+FROM nginxinc/nginx-unprivileged:latest
 
 # Kopieren Sie die HTML-Datei in den Container
 COPY index.html /usr/share/nginx/html/ 
