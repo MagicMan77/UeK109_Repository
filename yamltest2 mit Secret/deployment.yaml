@@ -1,19 +1,19 @@
 apiVersion: apps/v1 
 kind: Deployment 
 metadata: 
-  name: yamtest2 
+  name: yamltest2 
 spec: 
   replicas: 1 
   selector: 
     matchLabels: 
-      app: yamtest2 
+      app: yamltest2 
   template: 
     metadata: 
       labels: 
-        app: yamtest2 
+        app: yamltest2 
     spec: 
       containers: 
-        - name: yamtest2 
+        - name: yamltest2 
           image: ghcr.io/magicman77/nginx-unprivileged:v1
           ports: 
             - containerPort: 8080 
@@ -21,12 +21,12 @@ spec:
             - name: SECRET_USERNAME 
               valueFrom: 
                 secretKeyRef: 
-                  name: yamtest2 
+                  name: yamltest2 
                   key: username 
             - name: SECRET_PASSWORD 
               valueFrom: 
                 secretKeyRef: 
-                  name: yamtest2 
+                  name: yamltest2 
                   key: password 
 ---
 
