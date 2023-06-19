@@ -1,0 +1,59 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: yamtest2 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: yamtest2 
+  template: 
+    metadata: 
+      labels: 
+        app: yamtest2 
+    spec: 
+      containers: 
+        - name: yamtest2 
+          image: ghcr.io/magicman77/nginx-unprivileged:v1
+          ports: 
+            - containerPort: 8080 
+          env: 
+            - name: SECRET_USERNAME 
+              valueFrom: 
+                secretKeyRef: 
+                  name: yamtest2 
+                  key: username 
+            - name: SECRET_PASSWORD 
+              valueFrom: 
+                secretKeyRef: 
+                  name: yamtest2 
+                  key: password 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: yamltest2
+  labels:
+    app: yamltest2
+spec:
+  selector:
+    app: yamltest2
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: yamltest2
+spec:
+  to:
+    kind: Service
+    name: yamltest2
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
