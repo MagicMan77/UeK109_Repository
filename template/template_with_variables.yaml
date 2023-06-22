@@ -3,11 +3,13 @@ apiVersion: template.openshift.io/v1
 metadata:
   name: generic-app
   annotations:
-    openshift.io/display-name: "Generic App"
+    openshift.io/display-name: "${APP_NAME}"
     description: "A simple generic application"
     iconClass: "icon-play"
     tags: "app"
 parameters:
+  - name: APP_NAME
+    description: The name of the application
   - name: IMAGE_NAME
     description: The name of the container image
   - name: IMAGE_TAG
@@ -16,26 +18,26 @@ objects:
   - kind: Deployment
     apiVersion: apps/v1
     metadata:
-      name: generic-app
+      name: ${APP_NAME}
       labels:
-        app: generic-app
-        app.kubernetes.io/component: generic-app
-        app.kubernetes.io/instance: generic-app
-        app.kubernetes.io/name: generic-app
-        app.kubernetes.io/part-of: generic-app
+        app: ${APP_NAME}
+        app.kubernetes.io/component: ${APP_NAME}
+        app.kubernetes.io/instance: ${APP_NAME}
+        app.kubernetes.io/name: ${APP_NAME}
+        app.kubernetes.io/part-of: ${APP_NAME}
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: generic-app
+          app: ${APP_NAME}
       template:
         metadata:
           labels:
-            app: generic-app
-            deployment: generic-app
+            app: ${APP_NAME}
+            deployment: ${APP_NAME}
         spec:
           containers:
-            - name: generic-app
+            - name: ${APP_NAME}
               image: ${IMAGE_NAME}:${IMAGE_TAG}
               ports:
                 - containerPort: 8080
@@ -59,13 +61,13 @@ objects:
   - kind: Service
     apiVersion: v1
     metadata:
-      name: generic-app
+      name: ${APP_NAME}
       labels:
-        app: generic-app
-        app.kubernetes.io/component: generic-app
-        app.kubernetes.io/instance: generic-app
-        app.kubernetes.io/name: generic-app
-        app.kubernetes.io/part-of: generic-app
+        app: ${APP_NAME}
+        app.kubernetes.io/component: ${APP_NAME}
+        app.kubernetes.io/instance: ${APP_NAME}
+        app.kubernetes.io/name: ${APP_NAME}
+        app.kubernetes.io/part-of: ${APP_NAME}
     spec:
       ports:
         - name: 8080-tcp
@@ -76,22 +78,22 @@ objects:
       type: ClusterIP
       sessionAffinity: None
       selector:
-        app: generic-app
-        deployment: generic-app
+        app: ${APP_NAME}
+        deployment: ${APP_NAME}
   - kind: Route
     apiVersion: route.openshift.io/v1
     metadata:
-      name: generic-app
+      name: ${APP_NAME}
       labels:
-        app: generic-app
-        app.kubernetes.io/component: generic-app
-        app.kubernetes.io/instance: generic-app
-        app.kubernetes.io/name: generic-app
-        app.kubernetes.io/part-of: generic-app
+        app: ${APP_NAME}
+        app.kubernetes.io/component: ${APP_NAME}
+        app.kubernetes.io/instance: ${APP_NAME}
+        app.kubernetes.io/name: ${APP_NAME}
+        app.kubernetes.io/part-of: ${APP_NAME}
     spec:
       to:
         kind: Service
-        name: generic-app
+        name: ${APP_NAME}
       port:
         targetPort: 8080-tcp
       tls:
