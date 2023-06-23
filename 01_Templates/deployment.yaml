@@ -1,0 +1,22 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: yamltest1 
+  labels: 
+    app: yamltest1 
+name: yamltest1 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: yamltest1
+  template: 
+    metadata: 
+      labels: 
+        app: yamltest1 
+    spec: 
+      containers: 
+      - name: yamltest1 
+        image: [Github-Repo Adresse] 
+        ports: 
+        - containerPort: 8080 
